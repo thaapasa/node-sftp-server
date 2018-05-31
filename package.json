@@ -20,7 +20,7 @@
   ],
   "license": "ISC",
   "dependencies": {
-    "ssh2": "0.5.x",
+    "ssh2": "github:thaapasa/ssh2",
     "ssh2-streams": "github:thaapasa/ssh2-streams",
     "tmp": "^0.0.30"
   },
