@@ -451,8 +451,12 @@ var SFTPSession = (function(superClass) {
           return this.sftpStream.status(reqid, ssh2.SFTP_STATUS_CODE.OK);
         case "WRITE":
           this.handles[handle].stream.push(null);
-          //delete this.handles[handle]; //can't delete it while it's still going, right?
-          return this.sftpStream.status(reqid, ssh2.SFTP_STATUS_CODE.OK);
+          // delete this.handles[handle]; //can't delete it while it's still going, right?
+          
+          // Do not close stream right away, but emit "closewrite" and 
+          // let server close the stream via responder
+          // return this.sftpStream.status(reqid, ssh2.SFTP_STATUS_CODE.OK);
+          return this.emit("closewrite", this.handles[handle].path, new Responder(this.sftpStream, reqid));
         default:
           return this.sftpStream.status(reqid, ssh2.SFTP_STATUS_CODE.FAILURE);
       }
